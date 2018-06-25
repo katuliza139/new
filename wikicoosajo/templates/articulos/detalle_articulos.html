@@ -1,0 +1,61 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block container %}
+{% load crispy_forms_tags %}
+<h2>{{articulo}}
+  {% if articulo.validado == False and request.user.is_superuser %}
+  <a href="{% url 'articulo_validado' articulo.pk %}"><span class="glyphicon glyphicon-check"></span></a>
+  {% endif %}
+</h2>
+
+<div class="row">
+    <div class="group1 col-sm-6 col-md-2">
+            <span class="glyphicon glyphicon-bookmark"></span> <a href="{% url 'buscar_por_categoria' articulo.categoria.pk %}">{{articulo.categoria}}</a>
+    </div>
+    <div class="group2 col-sm-6 col-md-10" align="right">
+
+            <span class="glyphicon glyphicon-user"></span> Usuario: {{articulo.user}}&nbsp;&nbsp;&nbsp;&nbsp;
+            <span class="glyphicon glyphicon-pencil"></span> Comentarios: {{comentarios|length}}&nbsp;&nbsp;&nbsp;&nbsp;
+            <span class="glyphicon glyphicon-time"></span>{{articulo.fecha}}
+    </div>
+</div>
+
+<hr>
+
+
+<div class="">
+
+<p>{{articulo.contenido|safe}}</p>
+
+</div>
+<hr>
+
+{% if articulo.documento %}
+<div class="">
+<h4>Archivo</h4>
+ <a href="{{articulo.documento.url}}" download> <span class="glyphicon glyphicon-arrow-down"></span> Descargar Documento <span class="glyphicon glyphicon-arrow-down"></span></a>
+ <embed src="{{articulo.documento.url}}" type="application/pdf" width="750" height="600"></embed>
+</div>
+<hr>
+{% endif %}
+{% for i in comentarios %}
+<div class="">
+  <div class="panel panel-default">
+    <div class="panel-heading">{{i.user}} - {{i.fecha}}</div>
+    <div class="panel-body">
+      {{i.contenido|safe}}
+    </div>
+  </div>
+</div>
+
+{% endfor %}
+<div>
+{% if form %}
+  <form enctype="multipart/form-data" method="post">
+    {% csrf_token %}
+    {% crispy form %}
+  </form>
+  {% endif %}
+</div>
+
+{% endblock %}

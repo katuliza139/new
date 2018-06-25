@@ -1,0 +1,174 @@
+{% load static %}
+{% include 'head.html' %}
+
+<style type="text/css">
+  form {
+    border: 3px solid #f1f1f1;
+    border-radius: 10px;
+    height: auto;
+    right: 0px;
+    left: 0px;
+
+}
+.form-horizontal{
+  border: 3px solid #f1f1f1;
+  border-radius: 10px;
+  height: auto;
+  right: 0px;
+  left: 0px;
+
+}
+  input[type=text], input[type=password] {
+
+    padding: 12px 20px;
+    margin: 8px 0;
+    display: inline-block;
+    border: 1px solid #ccc;
+    box-sizing: border-box;
+    border-radius: 10px;
+}
+
+button {
+    background-color: #4CAF50;
+    color: white;
+    padding: 14px 20px;
+    margin: 8px 0;
+    border: none;
+    cursor: pointer;
+    border-radius: 15px;
+
+}
+footer {
+ font-size: 1rem;
+  position: fixed;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  padding: -4rem;
+  color: black;
+ background-color: gray;
+  text-align: center;
+}
+
+item{
+	-webkit-transform-style: preserve-3d;
+	-moz-transform-style: preserve-3d;
+	transform-style: preserve-3d;
+}
+
+.item a{
+	color: white;
+}
+
+
+
+</style>
+
+<body>
+
+<div >
+  <nav style="height: 50px;" class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container-fluid">
+      <div class="navbar-header">
+       <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+         
+       </button>
+
+       <a class="navbar-brand"  class="active" ><a href="{% url 'home' %}"><img src="{% static 'images/logo.png' %}" style="object-position: center; height:4rem; padding-top:1rem;">
+       </a>
+       </a>
+      </div>
+      <div class="collapse navbar-collapse"id="bs-example-navbar-collapse-1">
+      <div class="col-sm-6">
+        <dl class="nav navbar-nav">
+          <li><a href="{% url 'articulo' %}" ><span class="glyphicon glyphicon-plus"></span>Añadir Articulo</a></li>
+          {% if request.user.is_superuser %}
+          <li><a href="{% url 'articulos_por_validar' %}" ><span class=" glyphicon glyphicon-check"></span>Validar Articulos</a></li>
+          {% endif %}
+
+          {% block content %}
+          <li><a><span class="glyphicon glyphicon-user"></span>Usuarios</a></li>
+          {% end block %}
+        </dl>
+         
+      </div>        
+           
+      <div class="col-sm-3">
+              <div class="input-group" style="padding-bottom: 0.5rem;" id="adv-search" >
+                  <form method="POST" action="{% url 'palabra_busqueda' %}"  class="navbar-form navbar-right" style="border: 0;padding-top: 0;margin-top:-3px;">
+                  {% csrf_token %}
+                  <input style="height: 4rem;" name="pal" type="text" class="form-control" placeholder="Buscar" />
+                          <button style="height: 4rem;" type="button" class="btn btn-primary"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></button>
+                </form>
+              </div>
+            </div>
+
+           
+        <dl class="nav navbar-nav navbar-right">
+          {% if request.user.is_authenticated %}
+          <li><a href="{% url 'logout' %}"><span class="glyphicon glyphicon-log-in"></span> Salir</a></li>
+          {% endif %}
+        </dl>
+    </div>
+  </div>
+  </nav>
+</div>
+<br>
+<br>
+<br>
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-lg-2">
+      <div class="well well-sm">
+              <legend style="padding: 0px">
+                <label style="padding: 3px">Categorias</label>
+                </legend>
+                <ul >
+                  {% for x in cat %}
+                      <li><a href="{% url 'buscar_por_categoria' x.pk %}">{{x}}</a></li>
+                  {% endfor %}
+                </ul>
+                {% if request.user.is_superuser %}
+                <a href="{% url 'crear_categoria' %}"><span class="glyphicon glyphicon-plus-sign"></span>Agregar Categoria</a>
+                {% endif %}
+        </div>
+    </div>
+    <div class="col-lg-7" >
+
+        {%  block container %}
+        {% endblock %}
+
+
+    </div>
+
+    <div class="col-lg-3">
+      <div class="well well-sm">
+      <legend>
+              <label>Notificaciones</label>
+              </legend>
+
+         <ul class="list-group">
+           {% for x in nott %}
+           <li class="list-group-item disabled"><a href="">{{x}}</a></li>
+           {% endfor %}
+           <br>
+            <a class="btn btn-default" style="display: inline-block; width: 100%;" href="{% url 'notificaciones' %}">Ver todas</a>
+         </ul>
+
+    </div>
+
+  
+
+ 
+
+</div>
+</div>
+
+<div class="col-lg-12">
+  <footer class="footer">
+    <div class="container" class="text-center">
+    Copyright © Coosajo 2017. All rights reserved.
+    </div>
+    <footer>
+    </div>
+</body>

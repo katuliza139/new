@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block container %}
+
+
+
+{%if not notif %}
+<div class="jumbotron">
+  <p>No se han realizado cambios.</p>
+</div>
+{% else %}
+<legend>
+    <label>Notificaciones</label>
+</legend>
+
+<ul>
+  {% for n in notif %}
+  <div class="alert alert-info" role="alert">
+	<a>{{n}}
+	</a>
+  </div>
+  {% endfor %}
+</ul>
+{% endif %}
+{% endblock %}

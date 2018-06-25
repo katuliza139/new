@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block container %}
+
+<style media="screen">
+p {
+  display: block;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+</style>
+{% if not validar %}
+<div class="jumbotron">
+  <h2>No hay ningun articulo para validar.</h2>
+</div>
+{% else %}
+<h1>Articulos No Validados</h1>
+<hr>
+  {% for i in validar %}
+
+  <div class="panel panel-success">
+  <div class="panel-heading"><a href="{% url 'articulo_detalle' i.pk %}">{{i.titulo}}</a></div>
+  <div class="panel-body">
+  <p>{{i.contenido|safe}}</p>
+  </div>
+</div>
+  {% endfor %}
+
+{% endif %}
+
+{% endblock %}

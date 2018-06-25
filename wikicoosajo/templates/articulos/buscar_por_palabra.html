@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block container %}
+
+<style media="screen">
+p {
+  display: block;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+</style>
+<h1>Busqueda: {{palabra}}</h1>
+{% if not pala %}
+<div class="jumbotron">
+  <h1>ningun articulo contiene esta palabra</h1>
+<a href="{% url 'articulo' %}" class="btn btn-default"><span class="glyphicon glyphicon-plus"></span>Añadir Articulo</a>
+</div>
+{% else %}
+<hr>
+  {% for i in pala %}
+
+  <div class="panel panel-success">
+  <div class="panel-heading"><a href="{% url 'articulo_detalle' i.pk %}">{{i.titulo}}</a></div>
+  <div class="panel-body">
+  <p>{{i.contenido|safe}}</p>
+  </div>
+</div>
+  {% endfor %}
+
+{% endif %}
+
+{% endblock %}

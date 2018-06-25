@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block container %}
+{% load crispy_forms_tags %}
+
+
+<h1>Crear Noticia</h1>
+  <div>
+    <hr>
+    <form enctype="multipart/form-data" method="post">
+      {% csrf_token %}
+      {% crispy form %}
+
+	
+    </form>
+  </div>
+  {% endblock %}
+

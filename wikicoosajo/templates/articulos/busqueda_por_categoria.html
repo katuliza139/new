@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block container %}
+
+<style media="screen">
+p {
+  display: block;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+</style>
+{% if not arti %}
+<div class="jumbotron">
+  <h2>No hay ningun articulo para esta categoria.</h2>
+<a href="{% url 'articulo' %}" class="btn btn-default"><span class="glyphicon glyphicon-plus"></span>Añadir Articulo</a>
+</div>
+{% else %}
+<h1>{{categoria}}</h1>
+<hr>
+  {% for i in arti %}
+
+  <div class="panel panel-success">
+  <div class="panel-heading"><a href="{% url 'articulo_detalle' i.pk %}">{{i.titulo}}</a></div>
+  <div class="panel-body">
+  <p>{{i.contenido|safe}}</p>
+  </div>
+</div>
+  {% endfor %}
+
+{% endif %}
+
+{% endblock %}
